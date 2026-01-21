@@ -8,7 +8,7 @@
 </style>
 
 <h2 style="color: white;">KPI Name: {{ label }} (Data Period :Sept-Nov'25)</h2>
-<h2 style="color: white;">Alignment of KPI with Business Objective: Link Production/Manufacturing data to Sales (end-to-end visibility) in ERP</h2>
+<h3 style="color: white;">Alignment of KPI with Business Objective: Link Production/Manufacturing data to Sales (end-to-end visibility) in ERP</h3>
 <!-- <h4>Cost Optimization – 100% Supply Availability</h4> -->
 
 <!-- <hr> -->
@@ -35,17 +35,17 @@
   </div>
 {% endif %}
 {% if kpi_id == "supply_availability" %}
-  <h3 style="color:white;">
+  <h2 style="color:white;">
     Observation: Out of all the items in stock, 98.5 % have less than 50,000 pieces, 1.2% have between 50,000-200,000 pieces and 0.3% have more than 200,000 pieces. <br> Note: PM CONA's Inventory Benchmarks not available. Please refer to them to the management team
   </h2>
 
 {% elif kpi_id == "pm_shortage" %}
-  <h3 style="color:white;">
+  <h2 style="color:white;">
     Observation: Out of all the Packaging Material items in stock, 93.2 % have less than 50,000 pieces, 4% have between 50,000-200,000 pieces and 2.8% have more than 200,000 pieces. <br> Note: PM CONA's Inventory Benchmarks not available. Please refer to them to the management team
-  </h3>
+  </h2>
 {% else %}
   <!-- fallback (optional) -->
-  <h2 style="color:white;">Observation: Stock distribution across categories shown above.</h3>
+  <h2 style="color:white;">Observation: Stock distribution across categories shown above.</h2>
 {% endif %}
 
 <div style="
