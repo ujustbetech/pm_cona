@@ -71,7 +71,7 @@ KPI_REGISTRY = {
     "charts": [
     {
         "type": "bar",
-        "x": "Bucket",
+        "x": "PO Completion Rate Buckets",
         "y": "Vendor Count",
         "title": "Vendors by PO Completion Rate"
     }
