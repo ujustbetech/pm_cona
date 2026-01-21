@@ -160,13 +160,13 @@ KPI_REGISTRY = {
             "type": "donut_summary",
             "labels": ["Short Closed", "Not Short Closed"],
             "values": ["Short_Closed", "Not_Short_Closed"],
-            "title": "Short Closed vs Not Short Closed Sales Orders"
+            "title": "Short Closed vs Not Short Closed Non Shipped Sales Orders"
         },
         {
             "type": "bar",
             "x": "Month",
             "y": "Short_Closed",
-            "title": "Month on Month Short Closed Orders"
+            "title": "Month on Month Short Closed Non Shipped Orders"
         }
     ]
 },
