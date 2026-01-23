@@ -1,6 +1,20 @@
 {% extends "base.html" %}
 {% block content %}
 <style>
+/* Default: left-align text */
+.table-wrapper th,
+.table-wrapper td {
+    text-align: left;
+    white-space: nowrap;
+}
+
+/* Right-align numeric columns */
+.table-wrapper td[data-col="Count"],
+.table-wrapper td[data-col="Percentage"],
+.table-wrapper td[data-col="Stock_Qty"] {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
 /* Hide the first 3 rows of the table body (SUMMARY rows) */
 .table-wrapper table tbody tr:nth-child(-n+3) {
     display: none;

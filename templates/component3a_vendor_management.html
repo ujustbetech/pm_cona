@@ -1,5 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
+<style>
+/* Default: text left */
+.table-wrapper td,
+.table-wrapper th {
+    text-align: left;
+}
+
+/* Right-align numeric columns */
+.table-wrapper td[data-col="Total_POs"],
+.table-wrapper td[data-col="On_Time_POs"],
+.table-wrapper td[data-col="Delayed_POs"],
+.table-wrapper td[data-col="On_Time %"],
+.table-wrapper td[data-col="Vendor Count"] {
+    text-align: right;
+}
+</style>
+
 
 <h2 style="color: white;">KPI Name:  {{ label }} (Data Period: Apr - Nov) </h2>
 <h3 style="color: white;">Alignment of KPI with Business Objective: Increase Warehouses & Reduce SCM TAT to 2-4 days (PAN India)</h3>
@@ -31,11 +48,10 @@
   </div>
 {% endif %}
 <h2 style="color: white;">
-Observation: Out of 384 vendors, 80 achieved a 100% PO completion rate. 
-20 vendors recorded a completion rate of 90–99%, 
-36 vendors recorded the completion rate of 80–89% range, 
-36 vendors within the 70–79% range, 
-and 212 vendors recorded a PO completion rate below 70%.
+Observation: Out of 384 vendors, 82 achieved a greater than 95% PO completion rate. 
+30 vendors recorded the completion rate of 85–94% range, 
+44 vendors within the 75–84% range, 
+and 228 vendors recorded a PO completion rate below 74%.
 </h2>
 
 <div style="

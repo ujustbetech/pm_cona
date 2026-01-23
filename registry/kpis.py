@@ -21,29 +21,32 @@ KPI_REGISTRY = {
     "function": "run_component2",
     "template": "component2.html",
     "table_columns": [
-            "Item No.",
-            "Location Code",
-            "Description",
-            "Category",
-            "Subcategory",
-            "On_Hand",
-            "Stock_Value",
-            "Last Outward Date",
-            "Status",
-            "Days Dormant",
-            "Days Dormant Display"
-        ],
+    "Item No.",
+    "Location Code",
+    "Description",
+    "Category",
+    "Subcategory",
+    "On_Hand_Display",
+    "Stock_Value",
+    "Last Posting Date",
+    "Status",
+    "Days Dormant"
+],
+
     "charts":[
-   {
-      "type": "donut_value",
-  "column": "Status",
-  "value": "Stock_Value",
-  "title": "Inventory Stock Status"
-},
+
+ {
+"type": "bar",
+  "x": "Unit of Measure Code",
+  "y": "Slow_Moving_Value",
+  "title": "Slow-Moving Pieces Inventory Quantity by Different UOM"
+ }
+
         
       
     ]
 },
+
 
 
     # =====================================================
@@ -64,14 +67,14 @@ KPI_REGISTRY = {
             "Vendor",
             "Total_POs",
             "On_Time_POs",
-            "Late_POs",
-            "On_Time_Pct"
+            "Delayed_POs",
+            "On_Time %"
         ],
 
     "charts": [
     {
         "type": "bar",
-        "x": "PO Completion Rate Buckets",
+        "x": "Bucket",
         "y": "Vendor Count",
         "title": "Vendors by PO Completion Rate"
     }
@@ -91,8 +94,8 @@ KPI_REGISTRY = {
             "Vendor",
             "Total_POs",
             "On_Time_POs",
-            "Late_POs",
-            "On_Time_Pct"
+            "Delayed_POs",
+            "On_Time %"
         ],
     "charts": [
         {
@@ -156,12 +159,7 @@ KPI_REGISTRY = {
         ],
 
     "charts": [
-        {
-            "type": "donut_summary",
-            "labels": ["Short Closed", "Not Short Closed"],
-            "values": ["Short_Closed", "Not_Short_Closed"],
-            "title": "Short Closed vs Not Short Closed Non Shipped Sales Orders"
-        },
+
         {
             "type": "bar",
             "x": "Month",

@@ -1,5 +1,24 @@
 {% extends "base.html" %}
 {% block content %}
+<style>
+/* Default: text left */
+.table-wrapper th,
+.table-wrapper td {
+    text-align: left;
+    white-space: nowrap;
+}
+
+/* Right-align numeric columns */
+.table-wrapper td[data-col="Total_POs"],
+.table-wrapper td[data-col="On_Time_POs"],
+.table-wrapper td[data-col="Delayed_POs"],
+.table-wrapper td[data-col="On_Time %"],
+.table-wrapper td[data-col="Vendor Count"] {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+</style>
+
 
 <h2 style="color: white;">KPI Name: {{ label }} (Data Period :Apr-Nov'25)</h2>
 <h3 style="color: white;">Alignment of KPI with Business Objective: Develop a Procurement department and team aiming to reduce purchase price of raw materials by 2-4%.</h3>

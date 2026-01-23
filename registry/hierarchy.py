@@ -17,14 +17,20 @@ DEPARTMENTS = {
                     }
                 }
             },
+            "vendor_management": {
+    "label": "Vendor Management",
+    "kras": {
+        "vendor_performance": {
+            "label": "Vendor Performance",
+            "kpis": ["vendor_ontime"]
+        }
+    }
+}
+,
 
             "marketing": {
                 "label": "Marketing",
                 "kras": {
-                    "vendor_management": {
-                        "label": "Vendor Management",
-                        "kpis": ["vendor_ontime"]
-                    },
                     "seasonal_campaign_execution": {
                         "label": "Seasonal Campaign Execution",
                         "kpis": ["rm_po_sla"]

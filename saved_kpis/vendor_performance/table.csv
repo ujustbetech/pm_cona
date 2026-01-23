@@ -1,4 +1,4 @@
-Vendor,Total_POs,On_Time_POs,Late_POs,On_Time_Pct
+Vendor,Total_POs,On_Time_POs,Delayed_POs,On_Time %
 A.K.PACKAGING,7,2,5,28.57
 ABHISHEK BALASO KESARKAR,9,7,2,77.78
 ACN PLASTIC,44,28,16,63.64

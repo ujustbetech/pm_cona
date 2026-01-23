@@ -32,6 +32,25 @@ os.makedirs(TMP_DIR, exist_ok=True)
 app = Flask(__name__)
 app.secret_key = "pm-cona-secret"
 
+@app.before_request
+def require_login():
+    public_routes = {"/", "/logout", "/static"}
+    
+    if request.path.startswith("/static"):
+        return
+
+    if request.path not in public_routes and "user" not in session:
+        return redirect(url_for("login"))
+
+
+@app.after_request
+def disable_back_button_cache(response):
+    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
+
+
 
 # -------------------------------------------------
 # LOGIN
@@ -303,6 +322,18 @@ def download_kpi_excel(kpi_id):
         download_name=KPI_REGISTRY[kpi_id]["label"].replace(" ", "_") + ".xlsx",
         mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
+
+# for logout 
+@app.route("/logout")
+def logout():
+    session.clear()
+    response = redirect(url_for("login"), code=303)
+    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    response.headers["Clear-Site-Data"] = '"cache", "storage"'
+    return response
+
 
 
 # -------------------------------------------------

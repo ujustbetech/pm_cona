@@ -176,5 +176,9 @@ def run_component3b(
         df[col] = df[col].fillna("")    
     df["Last_Receipt_Date"] = df["Last_Receipt_Date"].replace("NaT", "").replace("", "No Receipt")
 
+    # ---------------- CLEAN DAYS DIFFERENCE FOR DISPLAY ----------------
+    df["Days_Difference"] = df["Days_Difference"].apply(
+    lambda x: "" if pd.isna(x) else int(x)
+)
 
     return metrics, df

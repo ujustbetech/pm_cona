@@ -147,16 +147,15 @@ def run_component3a(df_po: pd.DataFrame,
     ).round(2).fillna(0)
 
     def bucket_performance(pct):
-        if pct == 100:
-            return '100%'
-        elif pct >= 90:
-            return '90–99%'
-        elif pct >= 80:
-            return '80–89%'
-        elif pct >= 70:
-            return '70–79%'
+        if pct >= 95:
+            return '≥95%'
+        elif pct >= 85:
+            return '85–94%'
+        elif pct >= 75:
+            return '75–84%'
         else:
-            return '<70%'
+            return '<74%'
+
 
     buckets = completion_rate.reset_index(name="Completion_Pct")
     buckets["Bucket"] = buckets["Completion_Pct"].apply(bucket_performance)
@@ -164,7 +163,7 @@ def run_component3a(df_po: pd.DataFrame,
     bucket_summary = (
         buckets["Bucket"]
         .value_counts()
-        .reindex(['100%', '90–99%', '80–89%', '70–79%', '<70%'], fill_value=0)
+        .reindex(['≥95%', '85–94%', '75–84%', '<74%'], fill_value=0)
         .reset_index()
     )
     bucket_summary.columns = ["Bucket", "Vendor Count"]
@@ -217,19 +216,25 @@ def run_component3a(df_po: pd.DataFrame,
         "Total_Late_POs": int(vendor_kpi["Late_POs"].sum())
     }
         # ---------------- TABLE VISUAL FIX (NO app.py CHANGE) ----------------
-        # ---------------- TABLE VISUAL FIX (NO app.py CHANGE) ----------------
+# ---------------- TABLE VISUAL FIX (INT SAFE, ERROR FREE) ----------------
     table_df = final_df.copy()
     int_cols = ["Total_POs", "On_Time_POs", "Late_POs"]
 
     for col in int_cols:
         if col in table_df.columns:
-            # Convert vendor rows to proper int
+            # Force numeric FIRST (fixes object dtype from concat)
+            table_df[col] = pd.to_numeric(table_df[col], errors="coerce")
+
+            # Vendor rows → integers
             table_df.loc[table_df["Vendor"].notna(), col] = (
                 table_df.loc[table_df["Vendor"].notna(), col]
                 .astype("Int64")
             )
-            # Bucket rows stay blank
-            table_df.loc[table_df["Vendor"].isna(), col] = ""
+
+            # Bucket rows → blank
+            table_df.loc[table_df["Vendor"].isna(), col] = pd.NA
+
+
 
     # Hide bucket-only columns for vendor rows (visual cleanliness)
     mask_vendor_rows = table_df["Vendor"].notna()
@@ -237,6 +242,17 @@ def run_component3a(df_po: pd.DataFrame,
     for col in ["Bucket", "Vendor Count", "Performance_Bucket"]:
         if col in table_df.columns:
             table_df.loc[mask_vendor_rows, col] = None
+
+    table_df = table_df.rename(columns={
+    "Late_POs": "Delayed_POs",
+    "On_Time_Pct": "On_Time %"
+})
+    # ---------------- FINAL DISPLAY FIX (FOR UI ONLY) ----------------
+    for col in ["Total_POs", "On_Time_POs", "Delayed_POs"]:
+        if col in table_df.columns:
+            table_df[col] = table_df[col].apply(
+                lambda x: "" if pd.isna(x) else str(int(x))
+            )
 
     return metrics, table_df
 

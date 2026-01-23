@@ -216,18 +216,23 @@ def run_component3c(df_po: pd.DataFrame,
         "Total_On_Time_POs": int(vendor_kpi["On_Time_POs"].sum()),
         "Total_Late_POs": int(vendor_kpi["Late_POs"].sum())
     }
-        # ---------------- TABLE VISUAL FIX (NO app.py CHANGE) ----------------
-        # ---------------- TABLE VISUAL FIX (NO app.py CHANGE) ----------------
+    #---------------- TABLE VISUAL FIX (INT SAFE, ERROR FREE) ----------------
     table_df = final_df.copy()
     int_cols = ["Total_POs", "On_Time_POs", "Late_POs"]
 
     for col in int_cols:
         if col in table_df.columns:
-            # Convert vendor rows to proper int
+            # Force numeric FIRST (fixes object dtype from concat)
+            table_df[col] = pd.to_numeric(table_df[col], errors="coerce")
+
+            # Vendor rows → integers
             table_df.loc[table_df["Vendor"].notna(), col] = (
                 table_df.loc[table_df["Vendor"].notna(), col]
                 .astype("Int64")
             )
+
+            # Bucket rows → blank
+            table_df.loc[table_df["Vendor"].isna(), col] = pd.NA
 
 
     # Hide bucket-only columns for vendor rows (visual cleanliness)
@@ -236,6 +241,16 @@ def run_component3c(df_po: pd.DataFrame,
     for col in ["Bucket", "Vendor Count", "Performance_Bucket"]:
         if col in table_df.columns:
             table_df.loc[mask_vendor_rows, col] = None
+
+    table_df = table_df.rename(columns={
+    "Late_POs": "Delayed_POs",
+    "On_Time_Pct": "On_Time %"
+})
+    for col in ["Total_POs", "On_Time_POs", "Delayed_POs"]:
+        if col in table_df.columns:
+            table_df[col] = table_df[col].apply(
+                lambda x: "" if pd.isna(x) else str(int(x))
+            )
 
     return metrics, table_df
 

@@ -1,4 +1,4 @@
-Vendor,Total_POs,On_Time_POs,Late_POs,On_Time_Pct
+Vendor,Total_POs,On_Time_POs,Delayed_POs,On_Time %
 A.K.PACKAGING,7,2,5,28.57
 ABHISHEK BALASO KESARKAR,9,7,2,77.78
 ACN PLASTIC,44,28,16,63.64
@@ -322,7 +322,6 @@ Yamuna Brass Industries,3,0,3,0.0
 Yogi Tilak industries,1,0,1,0.0
 ZODIAC METAL STRIPS LTD,3,3,0,100.0
 Zenith Spray & Aerosols (P) Ltd,6,2,4,33.33
-,,,,
 ,,,,
 ,,,,
 ,,,,
