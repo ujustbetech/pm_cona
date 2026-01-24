@@ -33,18 +33,14 @@ KPI_REGISTRY = {
     "Days Dormant"
 ],
 
-    "charts":[
-
+"charts": [
  {
-"type": "bar",
-  "x": "Unit of Measure Code",
-  "y": "Slow_Moving_Value",
-  "title": "Slow-Moving Pieces Inventory Quantity by Different UOM"
+   "type": "bar_simple",
+   "x": "Unit of Measure Code",
+   "y": "Slow_Moving_Value",
+   "title": "Slow-Moving Inventory Value by UOM"
  }
-
-        
-      
-    ]
+]
 },
 
 

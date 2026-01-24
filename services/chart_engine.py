@@ -161,6 +161,60 @@ def generate_charts(df, chart_configs):
             fig.update_layout(yaxis_title=None)
             fig.update_yaxes(showticklabels=True)
 
+        elif chart_type == "treemap":
+    # Automatically aggregates by path
+            fig = px.treemap(
+                df,
+                path=cfg["path"],
+                values=cfg["values"],
+                title=title
+            )
+        elif chart_type == "pie_aggregated":
+                fig = px.pie(
+                    df,
+                    names=cfg["names"],
+                    values=cfg["values"],
+                    title=title
+                )
+        elif chart_type == "bar_simple":
+
+                try:
+                    # Step 1: Aggregate the data
+                    agg_df = (
+                        df.groupby(cfg["x"], as_index=False)
+                        [cfg["y"]].sum()
+                    )
+                    
+                    # Step 2: Sort by value descending
+                    agg_df = agg_df.sort_values(cfg["y"], ascending=False)
+                    
+                    # Step 3: Limit rows (safety check)
+                    if len(agg_df) > 50:
+                        agg_df = agg_df.head(50)  # Max 50 bars
+                    
+                    # Step 4: Create chart
+                    fig = px.bar(
+                        agg_df,
+                        x=cfg["x"],
+                        y=cfg["y"],
+                        title=title
+                    )
+                    
+                    # Step 5: Add value labels
+                    fig.update_traces(
+                        texttemplate='%{y:,.0f}',
+                        textposition='outside'
+                    )
+                    
+                except Exception as e:
+                    print(f"ERROR in bar_simple: {e}")
+                    # Return empty chart on error
+                    fig = px.bar(
+                        pd.DataFrame({cfg["x"]: ["Error"], cfg["y"]: [0]}),
+                        x=cfg["x"],
+                        y=cfg["y"],
+                        title=f"{title} - Error"
+                    )
         # -------------------------------------------------
 # BAR VALUE SUMMARY (FROM RESULT, NO EXTRA COLUMNS)
 # -------------------------------------------------
