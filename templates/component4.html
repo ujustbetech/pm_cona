@@ -89,7 +89,7 @@
 <!-- TABLE -->
 {% if table_html %}
   <div class="table-wrapper">
-    {{ table_html | safe | replace('O2C Cycle Days', 'No of Days') | replace('Completely_Shipped', 'Completely Shipped') | replace('Final Invoice Date', 'Shipment Creation Date')}}
+    {{ table_html | safe }}
   </div>
 {% endif %}
 

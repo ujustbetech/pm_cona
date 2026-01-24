@@ -1,4 +1,4 @@
-Sales Order No,Sales Order Date,Final Invoice Date,O2C Cycle Days
+Sales Order No,Sales Order Date,Shipment Creation Date,No of Days
 SO/AND/26/00004,01-04-2025,23-04-2025,22
 SO/AND/26/00005,01-04-2025,23-04-2025,22
 SO/AND/26/00006,01-04-2025,25-04-2025,24

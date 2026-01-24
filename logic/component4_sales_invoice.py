@@ -90,8 +90,8 @@ def run_component4(df_so_raw: pd.DataFrame, df_inv_raw: pd.DataFrame):
     sla_df = pd.DataFrame({
         "Sales Order No": ["SLA", "SLA", "SLA", "SLA"],
         "Sales Order Date": [pd.NaT]*4,
-        "Final Invoice Date": [pd.NaT]*4,
-        "O2C Cycle Days": [np.nan]*4,
+        "Shipment Creation Date": [pd.NaT]*4,
+        "No of Days": [np.nan]*4,
         "SLA Bucket": ["≤7 Days", "≤14 Days", "≤30 Days", "≤60 Days"],
         "SLA %": [
             metrics["pct_7"],
@@ -103,9 +103,10 @@ def run_component4(df_so_raw: pd.DataFrame, df_inv_raw: pd.DataFrame):
 
 
     df_table = df_valid.rename(columns={
-        "SO_No": "Sales Order No",
-        "SO_Date": "Sales Order Date",
-        "Invoice_Date": "Final Invoice Date"
+    "SO_No": "Sales Order No",
+    "SO_Date": "Sales Order Date",
+    "Invoice_Date": "Shipment Creation Date",
+    "O2C Cycle Days": "No of Days"
     })
     df_table["SLA Bucket"] = ""
     df_table["SLA %"] = ""
@@ -117,7 +118,7 @@ def run_component4(df_so_raw: pd.DataFrame, df_inv_raw: pd.DataFrame):
     safe_df = df_final.copy()
 
     # Convert datetime columns to string
-    for col in ["Sales Order Date", "Final Invoice Date"]:
+    for col in ["Sales Order Date", "Shipment Creation Date"]:
         if col in safe_df.columns:
             safe_df[col] = safe_df[col].dt.strftime("%d-%m-%Y")
 
@@ -126,10 +127,13 @@ def run_component4(df_so_raw: pd.DataFrame, df_inv_raw: pd.DataFrame):
 
     # Ensure numeric column is string-safe
     # Ensure numeric column stays integer-safe
-    if "O2C Cycle Days" in safe_df.columns:
-        safe_df["O2C Cycle Days"] = pd.to_numeric(safe_df["O2C Cycle Days"], errors="coerce").astype("Int64")
+    if "No of Days" in safe_df.columns:
+        safe_df["No of Days"] = pd.to_numeric(
+            safe_df["No of Days"], errors="coerce"
+        ).astype("Int64")
 
-        safe_df["O2C Cycle Days"] = safe_df["O2C Cycle Days"].replace("", "").astype(str)
+        safe_df["No of Days"] = safe_df["No of Days"].replace("", "").astype(str)
+
 
     # Final return with Excel-safe dataframe
     return metrics, safe_df

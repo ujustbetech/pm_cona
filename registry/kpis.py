@@ -366,12 +366,12 @@ KPI_REGISTRY = {
     "function": "run_component4",
     "template": "component4.html",
     "table_columns": [
-            "Sales Order No",
-            "Sales Order Date",
-            "Completely_Shipped",
-            "Final Invoice Date",
-            "O2C Cycle Days"
-        ],
+    "Sales Order No",
+    "Sales Order Date",
+    "Shipment Creation Date",
+    "No of Days"
+]
+,
      "charts": [
        {
     "type": "bar",
