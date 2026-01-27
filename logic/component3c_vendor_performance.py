@@ -248,9 +248,11 @@ def run_component3c(df_po: pd.DataFrame,
 })
     for col in ["Total_POs", "On_Time_POs", "Delayed_POs"]:
         if col in table_df.columns:
-            table_df[col] = table_df[col].apply(
-                lambda x: "" if pd.isna(x) else str(int(x))
+            # keep numbers numeric, blank only where NaN
+            table_df[col] = table_df[col].where(
+                table_df[col].notna(), None
             )
+
 
     return metrics, table_df
 

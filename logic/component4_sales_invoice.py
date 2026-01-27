@@ -117,25 +117,26 @@ def run_component4(df_so_raw: pd.DataFrame, df_inv_raw: pd.DataFrame):
     # ---- Excel-safe formatting ----
     safe_df = df_final.copy()
 
-    # Convert datetime columns to string
+    # Keep datetime columns as datetime (Excel formats correctly)
     for col in ["Sales Order Date", "Shipment Creation Date"]:
         if col in safe_df.columns:
-            safe_df[col] = safe_df[col].dt.strftime("%d-%m-%Y")
+            safe_df[col] = pd.to_datetime(safe_df[col], errors="coerce")
 
-    # Replace NaN/NaT with empty strings
-    safe_df = safe_df.replace({np.nan: "", pd.NaT: ""})
-
-    # Ensure numeric column is string-safe
-    # Ensure numeric column stays integer-safe
+    # Ensure numeric column stays numeric (right-aligned in Excel)
     if "No of Days" in safe_df.columns:
         safe_df["No of Days"] = pd.to_numeric(
             safe_df["No of Days"], errors="coerce"
         ).astype("Int64")
 
-        safe_df["No of Days"] = safe_df["No of Days"].replace("", "").astype(str)
+    # SLA % must stay numeric
+    if "SLA %" in safe_df.columns:
+        safe_df["SLA %"] = pd.to_numeric(
+            safe_df["SLA %"], errors="coerce"
+        )
 
+    # Use None for blanks (Excel empty cells)
+    safe_df = safe_df.where(safe_df.notna(), None)
 
-    # Final return with Excel-safe dataframe
     return metrics, safe_df
 
 

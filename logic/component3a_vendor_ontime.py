@@ -248,11 +248,16 @@ def run_component3a(df_po: pd.DataFrame,
     "On_Time_Pct": "On_Time %"
 })
     # ---------------- FINAL DISPLAY FIX (FOR UI ONLY) ----------------
-    for col in ["Total_POs", "On_Time_POs", "Delayed_POs"]:
-        if col in table_df.columns:
-            table_df[col] = table_df[col].apply(
-                lambda x: "" if pd.isna(x) else str(int(x))
-            )
+    display_cols = ["Total_POs", "On_Time_POs", "Delayed_POs"]
+
+    for col in display_cols:
+        table_df[col] = table_df[col].where(
+            table_df[col].notna(), None
+        )
+
+    # 🔒 THIS IS THE MISSING LINE
+    # table_df[display_cols] = table_df[display_cols].astype(str)
+
 
     return metrics, table_df
 

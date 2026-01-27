@@ -110,6 +110,11 @@ def run_component7(
     # =====================================================
     # DETAIL TABLE (NOW FILTERED CORRECTLY)
     # =====================================================
+    # Ensure Remaining_Qty is numeric for detail table
+    full_ledger["Remaining_Qty"] = pd.to_numeric(
+        full_ledger["Remaining_Qty"], errors="coerce"
+    ).fillna(0)
+
     detail_df = (
         full_ledger
         .groupby(
@@ -133,9 +138,9 @@ def run_component7(
     detail_df["row_type"] = "DETAIL"
 
     # ---------- FORMAT Stock_Qty ----------
-    detail_df["Stock_Qty"] = detail_df["Stock_Qty"].apply(
-        lambda x: f"{int(x):,}" if pd.notna(x) else ""
-    )
+    # detail_df["Stock_Qty"] = detail_df["Stock_Qty"].apply(
+    #     lambda x: f"{int(x):,}" if pd.notna(x) else ""
+    # )
 
     # ---------- COMBINED OUTPUT ----------
     final_df = pd.concat(
@@ -151,5 +156,21 @@ def run_component7(
         "50,000 - 200,000": int(pie_df.loc[pie_df["Stock_Status"] == "50,000 - 200,000", "Count"].sum()),
         "> 200,000": int(pie_df.loc[pie_df["Stock_Status"] == "> 200,000", "Count"].sum()),
     }
+
+    # =====================================================
+# SIMPLE EXCEL-SAFE FORMATTING
+# =====================================================
+    
+    # Let pandas keep numbers as numbers
+    final_df["Stock_Qty"] = (
+    pd.to_numeric(final_df["Stock_Qty"], errors="coerce")
+    .round(0)
+    .astype("Int64")
+)
+
+
+    # Make sure empty cells stay empty (not "")
+    final_df = final_df.where(final_df.notna(), None)
+
 
     return summary, final_df
